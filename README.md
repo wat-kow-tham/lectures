@@ -126,8 +126,24 @@ Output #0, mp4, to 'whiteaudio.mp4':
     Metadata:
       creation_time   : 2018-04-12T08:39:53.000000Z
       handler_name    : SoundHandle
-frame=  484 fps=0.0 q=28.0 size=     256kB time=00:00:17.24 bitrate= 121.7kbits/s spe
-frame=  974 fps=972 q=28.0 size=     512kB time=00:00:36.84 bitrate= 113.9kbits/s spe
-frame= 1913 fps=1273 q=28.0 size=    1024kB time=00:01:14.40 bitrate= 112.8kbits/s sp
-frame= 2838 fps=1417 q=28.0 size=    1536kB time=00:01:51.40 bitrate= 113.0kbits/s spf
+frame=  484 fps=0.0 q=28.0 size=     256kB time=00:00:17.24 bitrate= 121.7kbits/s spee
+frame=  974 fps=972 q=28.0 size=     512kB time=00:00:36.84 bitrate= 113.9kbits/s spee
+frame= 1913 fps=1273 q=28.0 size=    1024kB time=00:01:14.40 bitrate= 112.8kbits/s spee
+frame= 2838 fps=1417 q=28.0 size=    1536kB time=00:01:51.40 bitrate= 113.0kbits/s spee
+...
+frame=68597 fps=2077 q=28.0 size=   43776kB time=00:45:41.76 bitrate= 130.8kbits/s spee
 ```
+`fps=2077` in the last line means that `ffmpeg` could encode 2077 "frames per second",
+and `25 fps` in output stream description means that our blank white video plays at 25
+frames per second.
+
+**speedup video encoding**
+
+For encoding to `.mp4` FFmpeg provides [several presets](https://trac.ffmpeg.org/wiki/Encode/H.264#Preset).
+Blank white video doesn't need any quality controls, so we can just use the fastest
+`-preset ultrafast` and drop frames per second in output video (frame rate) to 5 (`-r 5`).
+
+    $ REC="20180412_002"; time ffmpeg -hide_banner -i "${REC}.m4a" -c:a copy -filter_complex color=white -shortest -preset ultrafast -r 5 "${REC}.mp4"
+
+This command uses shell variable to reuse filename for input and output. Using framerate
+of 5 frames per second makes `vlc` complain while playing, but for YouTube should be okay.
