@@ -47,7 +47,7 @@ Here we specify `.m4a` audio file as input to `ffmpeg`, and then
 `ffmpeg` reports that there is one input `#0` with one stream `#0:0`,
 which is audio with some characteristics.
 
-**generate endless white color video**
+**generate 1 hour white color video**
 
 We need to create video stream, because YouTube refuses to accept files with
 only audio inside. First we need to learn how to create blank video.
