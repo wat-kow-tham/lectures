@@ -48,10 +48,17 @@ Here we specify `.m4a` audio file as input to `ffmpeg`, and then
 which is audio with some characteristics.
 
 **generate endless white color video**
-We need to create video stream, because YouTube refuses to accept files with only
-audio inside. First we need to learn how to create blank video. Press **q** to stop.
+
+We need to create video stream, because YouTube refuses to accept files with
+only audio inside. First we need to learn how to create blank video.
+
+The command below uses `color` filter to produce video stream with white
+background. `-t` parameter limits time of the resulting video to 1 hour.
+Last parameter is filename of resulting file `white.webm` - for `ffmpeg` it
+is **output** #0.
+
 ```
-$ ffmpeg -filter_complex color=white white.webm
+$ ffmpeg -hide_banner -t 3600 -filter_complex color=white white.webm
 Stream mapping:
   color -> Stream #0:0 (libvpx-vp9)
 Press [q] to stop, [?] for help
@@ -69,6 +76,7 @@ frame=  139 fps=138 q=0.0 size=       1kB time=00:00:04.56 bitrate=   1.1kbits/s
 frame=  217 fps=144 q=0.0 size=       4kB time=00:00:07.68 bitrate=   3.8kbits/s spee
 frame=  292 fps=145 q=0.0 size=       7kB time=00:00:10.68 bitrate=   5.0kbits/s spee  
 ```
-Now `white.webm` contains blank white video. The `-filter_complex` just tells
-`ffmpeg` to use **filters**. We used `.webm` format for output and `ffmpeg`
-automatically mapped output of `color filter` to output stream `#0:0`.
+Now `white.webm` contains 1 hour of blank white video. `-filter_complex`
+param is used to specify **filters** for video processing. `.webm` format
+for output was detected automatically, and then `ffmpeg` automatically
+mapped output of `color filter` to output stream `#0:0`.
