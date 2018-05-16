@@ -80,3 +80,54 @@ Now `white.webm` contains 1 hour of blank white video. `-filter_complex`
 param is used to specify **filters** for video processing. `.webm` format
 for output was detected automatically, and then `ffmpeg` automatically
 mapped output of `color filter` to output stream `#0:0`.
+
+**create combined audio+video file from separate input streams**
+
+We now create single `.mp4` video+audio file from separate `.m4a` stream and
+separate blank white video stream.
+
+The command below tells `ffmpeg` to copy default `input audio stream` as is
+(`-codec:a copy` or `-c:a copy`), then produce video stream using filter
+(`-filter_complex color=white`) and stop encoding when one or another input
+stream ends (`-shortest`).
+
+```
+$ ffmpeg -hide_banner -i 20180412_002.m4a -codec:a copy -filter_complex color=white -shortest whiteaudio.mp4
+
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '20180412_002.m4a':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    creation_time   : 2018-04-12T08:39:53.000000Z
+    com.android.version: 6.0
+  Duration: 01:09:38.81, start: 0.000000, bitrate: 130 kb/s
+    Stream #0:0(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      creation_time   : 2018-04-12T08:39:53.000000Z
+      handler_name    : SoundHandle
+Stream mapping:
+  color -> Stream #0:0 (libx264)
+  Stream #0:0 -> #0:1 (copy)
+...
+Output #0, mp4, to 'whiteaudio.mp4':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    com.android.version: 6.0
+    encoder         : Lavf58.12.100
+    Stream #0:0: Video: h264 (libx264) (avc1 / 0x31637661), yuv420p, 320x240 [SAR 1:1 DAR 4:3], q=-1--1, 25 fps, 12800 tbn, 25 tbc (default)
+    Metadata:
+      encoder         : Lavc58.18.100 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: -1
+    Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      creation_time   : 2018-04-12T08:39:53.000000Z
+      handler_name    : SoundHandle
+frame=  484 fps=0.0 q=28.0 size=     256kB time=00:00:17.24 bitrate= 121.7kbits/s spe
+frame=  974 fps=972 q=28.0 size=     512kB time=00:00:36.84 bitrate= 113.9kbits/s spe
+frame= 1913 fps=1273 q=28.0 size=    1024kB time=00:01:14.40 bitrate= 112.8kbits/s sp
+frame= 2838 fps=1417 q=28.0 size=    1536kB time=00:01:51.40 bitrate= 113.0kbits/s spf
+```
