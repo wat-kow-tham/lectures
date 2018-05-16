@@ -146,4 +146,5 @@ Blank white video doesn't need any quality controls, so we can just use the fast
     $ REC="20180412_002"; time ffmpeg -hide_banner -i "${REC}.m4a" -c:a copy -filter_complex color=white -shortest -preset ultrafast -r 5 "${REC}.mp4"
 
 This command uses shell variable to reuse filename for input and output. Using framerate
-of 5 frames per second makes `vlc` complain while playing, but for YouTube should be okay.
+of 5 frames per second makes `vlc` complain while playing, but should be okay
+[for YouTube](https://support.google.com/youtube/answer/1722171?hl=en).
