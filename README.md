@@ -1,3 +1,11 @@
+### Originals
+
+Original audio files for Dharma teaching and meditation instructions at Wat Kow Tham.
+
+* [10-20 April 2018 by Dr.Marut Damchaom](https://bintray.com/wat-kow-tham/lectures/dharma/20180410-20180420#files)
+
+### How to encode and upload to YouTube
+
 Instructions how to record, process and upload audio lectures
 for people to study, based on
 https://github.com/wat-kow-tham/checklist/issues/1
