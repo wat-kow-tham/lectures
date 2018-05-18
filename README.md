@@ -156,3 +156,16 @@ Blank white video doesn't need any quality controls, so we can just use the fast
 This command uses shell variable to reuse filename for input and output. Using framerate
 of 5 frames per second makes `vlc` complain while playing, but should be okay
 [for YouTube](https://support.google.com/youtube/answer/1722171?hl=en).
+
+**normalize audio and convert to .webm**
+
+Let's apply audio filter for dynamic audio normalization `-af dynaudform`. And
+because audio processing requires reencoding, let's save the result into open
+`.webm` format that is unencumbered by patents.
+
+    $ REC="20180412_002"; time ffmpeg -hide_banner -i "${REC}.m4a" -af dynaudnorm -filter_complex color=white -deadline realtime -shortest -r 5 "${REC}.webm"
+
+`-deadline realtime` is an option to speedup
+[VP9 encoding](https://trac.ffmpeg.org/wiki/Encode/VP9). `ffmpeg` chooses
+Opus audio codec and VP9 video codec for `.webm` format automatically.
+
