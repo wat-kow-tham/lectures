@@ -1,0 +1,22 @@
+#!/usr/bin/env ipython
+
+import os
+import sys
+
+def fix_media_timestamps():
+    '''Set timestamps for media files in current dir from metadata'''
+    res = !mediainfo --Version
+    if len(res) < 2 or not res[1].startswith('MediaInfoLib -'):
+        sys.exit("Error: Make sure 'mediainfo' is installed")
+
+    for filename in os.listdir('.'):
+        if filename.endswith('.m4a'):
+	    info = !mediainfo $filename
+            for line in info:
+                if line.startswith('Encoded date'):
+                    encdate = line.split(':', 1)[1].strip()
+                    print("Set timestamp '{}' for {}".format(encdate, filename))
+                    !touch -d "$encdate" $filename
+
+if __name__ == '__main__':
+    fix_media_timestamps()
